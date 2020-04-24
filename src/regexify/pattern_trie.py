@@ -1,4 +1,5 @@
 import re
+from typing import Iterable
 
 
 class PatternTrie:
@@ -8,15 +9,23 @@ class PatternTrie:
     The corresponding Regex should match much faster than a simple Regex union.
     """
 
-    def __init__(self):
+    def __init__(self, *words: str):
         self.data = {}
+        if words:
+            self.add_all(words)
 
-    def add(self, word):
+    def add(self, word: str):
+        """Add a single word to the pattern"""
         ref = self.data
         for char in word:
             ref[char] = char in ref and ref[char] or {}
             ref = ref[char]
         ref[''] = 1
+        
+    def add_all(self, words: Iterable[str]):
+        """Add multiple words to the pattern"""
+        for word in words:
+            self.add(word)
 
     def dump(self):
         return self.data
@@ -26,7 +35,7 @@ class PatternTrie:
 
     def _pattern(self, pdata):
         data = pdata
-        if "" in data and len(data.keys()) == 1:
+        if '' in data and len(data.keys()) == 1:
             return None
 
         alt = []
@@ -52,15 +61,16 @@ class PatternTrie:
         if len(alt) == 1:
             result = alt[0]
         else:
-            result = "(?:" + "|".join(alt) + ")"
+            result = '(?:' + '|'.join(alt) + ')'
 
         if q:
             if cconly:
-                result += "?"
+                result += '?'
             else:
-                result = "(?:%s)?" % result
+                result = '(?:%s)?' % result
         return result
 
-    def pattern(self):
+    @property
+    def pattern(self) -> str:
         """Get pattern created from trie"""
         return self._pattern(self.dump())
