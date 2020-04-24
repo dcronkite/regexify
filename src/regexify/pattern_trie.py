@@ -16,6 +16,8 @@ class PatternTrie:
 
     def add(self, word: str):
         """Add a single word to the pattern"""
+        if not word:
+            return
         ref = self.data
         for char in word:
             ref[char] = char in ref and ref[char] or {}
@@ -73,4 +75,6 @@ class PatternTrie:
     @property
     def pattern(self) -> str:
         """Get pattern created from trie"""
+        if len(self.data) == 0:
+            raise ValueError('No data to build pattern.')
         return self._pattern(self.dump())
