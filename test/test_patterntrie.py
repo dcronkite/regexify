@@ -4,7 +4,7 @@ import pytest
 from hypothesis import given
 import hypothesis.strategies as st
 
-from regexify.pattern_trie import PatternTrie
+from regexify import PatternTrie
 
 
 def test_pattern_matches_original():
