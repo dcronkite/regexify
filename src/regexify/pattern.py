@@ -2,6 +2,25 @@ import re
 from copy import copy
 
 
+class Negation:
+
+    def __init__(self, term, match):
+        self._term = term
+        self._match = match
+
+    @property
+    def match(self):
+        if isinstance(self._match, re.Match):
+            return self._match.group()
+        return str(self._match)
+
+    @property
+    def term(self):
+        if isinstance(self._term, re.Pattern):
+            return self._term.pattern
+        return str(self._term)
+
+
 class Match:
 
     def __init__(self, match, groups=None):
@@ -89,13 +108,13 @@ class Pattern:
     def __str__(self):
         return self.text
 
-    def matches(self, text, ignore_negation=False):
+    def matches(self, text, ignore_negation=False, return_negation=False):
         m = self.pattern.search(text)
         if m:
             if not ignore_negation:
                 for negate in self.negates:
                     if negate.search(text):
-                        return False
+                        return Negation(negate, m) if return_negation else False
             self.match_count += 1
             return Match(m, groups=self._compress_groups(m))
         return False
