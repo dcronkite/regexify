@@ -31,7 +31,7 @@ with open('README.rst', 'w') as out:
     out.write(''.join(convert_md_to_rst('README.md')))
 
 setup(name='regexify',
-      version='0.1.6',
+      version='0.1.7',
       description='Regular expression containers and helper functions',
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',

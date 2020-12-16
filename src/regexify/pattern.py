@@ -113,8 +113,8 @@ class Pattern:
         if m:
             if not ignore_negation:
                 for negate in self.negates:
-                    if negate.search(text):
-                        return Negation(negate, m) if return_negation else False
+                    if neg_match := negate.search(text):
+                        return Negation(neg_match, m) if return_negation else False
             self.match_count += 1
             return Match(m, groups=self._compress_groups(m))
         return False
