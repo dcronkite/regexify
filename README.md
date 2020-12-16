@@ -10,9 +10,6 @@
 <br />
 <div>
   <p>
-    <a href="https://github.com/dcronkite/regexify">
-      <img src="images/logo.png" alt="Logo">
-    </a>
   </p>
 
   <h3 align="center">regexify</h3>
