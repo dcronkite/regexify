@@ -47,6 +47,10 @@ class Match:
             else:
                 res.append(self._groups[idx - 1])
 
+    def groupdict(self, name=None, default=None):
+        d = self.match.groupdict(default)
+        return d[name] if name else d
+
     def groups(self):
         if not self._groups:
             return self.match.groups()
